@@ -1,0 +1,2 @@
+"0","# boxplot comparing the distributions across the two levels of income"
+"0","plot_boxplot(train, 'income', 'age')"

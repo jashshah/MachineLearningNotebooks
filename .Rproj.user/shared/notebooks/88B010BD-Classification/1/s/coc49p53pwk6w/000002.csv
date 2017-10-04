@@ -1,0 +1,2 @@
+"0","# Univariate analysis - count of each level in workclass "
+"0","plot_bar_plot_count(train, 'workclass')"

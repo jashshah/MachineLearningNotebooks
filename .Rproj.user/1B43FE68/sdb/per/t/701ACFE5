@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Regression\"\noutput: html_notebook\n---\n```{r, include=TRUE, message=FALSE}\nsource('libraries.R')\nsource('functions.R')\n```\n\n\n```{r}\n# load the data set\nboston <- read_csv(\"data/boston.csv\")\n\n# convert CHAS and RAD to factor\nboston$CHAS <- as.factor(boston$CHAS)\nboston$RAD <- as.factor(boston$RAD)\n```\n\n## Exploratory Data Analysis\n\n```{r}\n# mean, median, max, min and standard deviation of the data\nsummary(boston)\n```\n\n```{r}\n# correlation plot\ncorrplot(cor(boston %>% select(-RAD, -CHAS)))\n```\n\n```{r}\n# scatterplots - to show the relationship between a predictor numeric variable and the response variable\n\np1 <- ggplot(boston, aes(x = LSTAT, y = PRICE)) + geom_point()\np2 <- ggplot(boston, aes(x = RM, y = PRICE)) + geom_point()\np3 <- ggplot(boston, aes(x = PTRATIO, y = PRICE)) + geom_point()\n\ngrid.arrange(p1, p2, p3, ncol = 3)\n```\n\n```{r}\n# boxplots - to show the relationship between a categorical predictor variable and the response variable\n\np1 <- ggplot(boston, aes(x = CHAS, y = PRICE)) + geom_boxplot()\np2 <- ggplot(boston, aes(x = RAD, y = PRICE)) + geom_boxplot()\n\ngrid.arrange(p1, p2, ncol = 2)\n```\n\n```{r}\n# divide into training and testing set\n\nset.seed(1)\ntrainIndex <- createDataPartition(boston$PRICE, p = .67, list = FALSE, times = 1)\n\ntrain <- boston[trainIndex,]\ntest <- boston[-trainIndex,]\n\nhead(train)\n```\n\n### Data Preprocessing\n\n```{r}\nX_train <- train %>%\n  select(-PRICE)\n\nX_test <- test %>%\n  select(-PRICE)\n\ny_train <- train %>%\n  pull(PRICE)\n\ny_test <- test %>%\n  pull(PRICE)\n```\n\n\n```{r}\n# min max scaler to scale variables between 1 and 0\n\n# intialize and learn the parameters of the scaled object\nscaler <- preProcess(X_train, method = 'range')\n\n# scale the training set\nX_train_scaled <- predict(scaler, X_train)\n\n# scale the test set\nX_test_scaled <- predict(scaler, X_test)\n```\n\n```{r}\ntrain_scaled <- data.frame(X_train_scaled, PRICE = y_train)\ntest_scaled <- data.frame(X_test_scaled, PRICE = y_test)\n```\n\n### Linear Regression\n\n```{r}\n# fit a multiple linear regression\nfit <- lm(PRICE ~ ., data = train_scaled)\n\n# check the coefficients and significance of the digits\nsummary(fit)\n```\n\n```{r}\n# predict on the test set\npred <- predict(fit, test_scaled)\n\n# estimate test set performace using R-squared and RMSE\nlmValues1 <- data.frame(obs = test_scaled$PRICE, pred = pred)\ndefaultSummary(lmValues1)\n```\n\n### Desision Trees Regression\n\n```{r}\ncheckInstallLoad(\"rpart\")\n\n# fit a decision tree regressor\nfit <- rpart(PRICE ~ ., data = train, method = \"anova\")\n\n# predict on the test set\npred <- predict(fit, test)\n\n# estimate test set performace using R-squared and RMSE\nlmValues1 <- data.frame(obs = test_scaled$PRICE, pred = pred)\ndefaultSummary(lmValues1)\n```\n\n```{r}\n# plot the decision tree\n\ncheckInstallLoad(\"RColorBrewer\")\ncheckInstallLoad(\"rattle\")\n\nfancyRpartPlot(fit)\n```\n\n",
+    "created" : 1507031584954.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "364056579",
+    "id" : "701ACFE5",
+    "lastKnownWriteTime" : 1507035849,
+    "last_content_update" : 1507035849617,
+    "path" : "~/Lemoxo/Machine Learning Notebooks/ML Notebooks - R Files/Regression.Rmd",
+    "project_path" : "Regression.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

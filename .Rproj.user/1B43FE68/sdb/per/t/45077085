@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1507032003196.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "45077085",
+    "lastKnownWriteTime" : 3419473787924512768,
+    "last_content_update" : 1507032003196,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "45800CDC",
+        "caption" : "boston",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=boston&cache_key=45800CDC",
+        "displayedObservations" : "506",
+        "environment" : "",
+        "object" : "boston",
+        "preview" : "0",
+        "totalObservations" : "506",
+        "variables" : "14"
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

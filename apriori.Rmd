@@ -1,0 +1,73 @@
+---
+title: "Apriori"
+output: html_notebook
+---
+
+```{r}
+# load the data
+
+df_groceries <- read.csv("data/groceries.csv")
+head(df_groceries)
+```
+
+```{r}
+# data cleaning and manipulations
+
+# make sure that the Member numbers are of numeric data type and then sort the dataframe based on the Member_number.
+
+df_sorted <- df_groceries[order(df_groceries$Member_number),]
+df_sorted$Member_number <- as.numeric(df_sorted$Member_number)
+```
+
+```{r}
+# convert the dataframe into transactions format such that all the items bought at the same time in one row. 
+
+library(plyr)
+
+# convert the dataframe into basket format, based on the Member_number and Date of transaction
+
+df_itemList <- ddply(df_groceries,c("Member_number","Date"), 
+                       function(df1) paste(df1$itemDescription, collapse = ","))
+
+```
+
+```{r}
+# delete date and member_number
+
+df_itemList$Member_number <- NULL
+df_itemList$Date <- NULL
+
+```
+
+```{r}
+colnames(df_itemList) <- c("itemList")
+
+# write.csv(df_itemList,"ItemList.csv", row.names = TRUE)
+
+# txn = read.transactions(file="ItemList.csv", rm.duplicates= TRUE, format="basket",sep=",",cols=1);
+
+# add the row numbers such that they can be used as transaction IDs
+df_itemList$id <- 1:nrow(df_itemList)
+```
+
+```{r}
+library(arules)
+
+# coerce the data frame to class transactions
+
+txn = as(split(df_itemList[,"itemList"], df_itemList[,"id"]), "transactions")
+```
+
+
+```{r}
+# run the apriori algorithm
+
+basket_rules <- apriori(txn, parameter = list(sup = 0, conf = 0, target="rules"));
+
+# print association rules
+
+arules::inspect(basket_rules[1:5])
+
+```
+
+

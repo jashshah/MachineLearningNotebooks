@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"R Notebook\"\noutput: html_notebook\n---\n\n```{r, include=TRUE, message=FALSE}\nsource('libraries.R')\nsource('functions.R')\n```\n\n```{r}\n# read the data\n\nnci <- read_csv(\"data/NCI60.csv\")\nhead(nci)\n```\n\n```{r}\n\n# save the cancer type in a separate object and remove it from the data frame\n\ncancer_type <- nci %>%\n  pull(cancer_type)\n\nnci$cancer_type <- NULL\n```\n\n```{r}\n# number of unique classes of cancer type\n\nlength(unique(cancer_type))\n```\n\n```{r}\n# label encode the cancer type\n\n# cancer_type <- as.factor()\n\n```\n\n### K Means\n\n```{r}\n# since the number of classes the data belongs to is already known i.e. 14, use 14 clusters\nset.seed(1)\nclusts <- kmeans(data.frame(nci), centers = 14, nstart = 10)\n\n# get the cluster number each observation is assigned to\n(cluster_labs <- clusts$cluster)\n```\n\n\n```{r}\n# Compute the similarity between two clusterings of the same data set.\n# checkInstallLoad(\"clusteval\")\n\n# cluster_similarity(cluster_labs, cancer_type)\n\ncheckInstallLoad(\"mclust\")\n\nadjustedRandIndex(cluster_labs, cancer_type)\n\n```\n\n```{r}\n# try for different number of clusters\nset.seed(1)\nclusts2 <- kmeans(data.frame(nci), centers = 11, nstart = 10)\n\n# get the cluster number each observation is assigned to\ncluster_labs2 <- clusts2$cluster\n\nadjustedRandIndex(cluster_labs2, cancer_type)\n\n```\n\n```{r}\n# try for different number of clusters\nset.seed(1)\nclusts3 <- kmeans(data.frame(nci), centers = 16, nstart = 10)\n\n# get the cluster number each observation is assigned to\ncluster_labs3 <- clusts3$cluster\n\nadjustedRandIndex(cluster_labs3, cancer_type)\n```\n\nOut of the three different values for the number of clusters, the highest rand score was when k = 14, which is the original number of classes of cancer type.\n\n### Heirarchical Clustering\n\n```{r}\n# compute the inter observation Eucliaean distance matrix using `dist`\n\nhc.complete <- hclust(dist(nci), method=\"complete\")\n\n# plot the dendogram\n\nplot(hc.complete, main=\"Complete Linkage \", xlab=\"\", sub=\"\", cex=0.9, labels = cancer_type)\n\n```\n\n```{r}\n# determine the cluster labels for each observation for example for 4 groups\n\nhc.clusters <- cutree(hc.complete , 4)\ntable(hc.clusters, cancer_type)\n```\n\n### Principal Component Analysis\n\n```{r}\n# perform PCA\npr.out <- prcomp(nci)\n\n# matrix whose columns contain the eigenvectors\npr.out$rotation[1:5, 1:5]\n\n# observe shape of matrix\nprint(\"Shape:\")\nprint(dim(pr.out$rotation))\n```\n",
+    "created" : 1507035961380.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3031014176",
+    "id" : "DE4F5FB6",
+    "lastKnownWriteTime" : 1507040650,
+    "last_content_update" : 1507040650410,
+    "path" : "~/Lemoxo/Machine Learning Notebooks/ML Notebooks - R Files/Clustering.Rmd",
+    "project_path" : "Clustering.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

@@ -1,0 +1,5 @@
+"0","# remove the columns that are not required"
+"0","train <- train %>%"
+"0","  select(-education, -native_country, -income)"
+"0","test <- test %>%"
+"0","  select(-education, -native_country, -income)"

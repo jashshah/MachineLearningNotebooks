@@ -1,0 +1,2 @@
+"0","train_scaled <- data.frame(X_train_scaled, PRICE = y_train)"
+"0","test_scaled <- data.frame(X_test_scaled, PRICE = y_test)"

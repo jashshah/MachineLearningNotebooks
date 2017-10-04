@@ -1,0 +1,8 @@
+"0","X_train <- train %>%"
+"0","  select(-PRICE)"
+"0","X_test <- test %>%"
+"0","  select(-PRICE)"
+"0","y_train <- train %>%"
+"0","  pull(PRICE)"
+"0","y_test <- test %>%"
+"0","  pull(PRICE)"

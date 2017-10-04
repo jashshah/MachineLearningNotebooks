@@ -1,0 +1,2 @@
+"0","# mosaic plot - shows the proportions of observations in each level of the independent variable for each level of the dependent variable"
+"0","mosaicplot(income ~ sex, data = train, main = '')"

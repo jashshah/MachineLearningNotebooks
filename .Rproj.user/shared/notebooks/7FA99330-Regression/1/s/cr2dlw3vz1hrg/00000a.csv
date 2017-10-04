@@ -1,0 +1,5 @@
+"0","# scatterplots - to show the relationship between a predictor numeric variable and the response variable"
+"0","p1 <- ggplot(boston, aes(x = LSTAT, y = PRICE)) + geom_point()"
+"0","p2 <- ggplot(boston, aes(x = RM, y = PRICE)) + geom_point()"
+"0","p3 <- ggplot(boston, aes(x = PTRATIO, y = PRICE)) + geom_point()"
+"0","grid.arrange(p1, p2, p3, ncol = 3)"

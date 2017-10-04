@@ -1,0 +1,1 @@
+"0","mosaicplot(income ~ is_UnitedStates, data = train, main = '')"

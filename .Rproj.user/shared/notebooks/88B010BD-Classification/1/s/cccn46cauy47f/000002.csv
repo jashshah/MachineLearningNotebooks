@@ -1,0 +1,4 @@
+"0","# label encode education_num"
+"0","train_scaled$education_num <- as.numeric(train_scaled$education_num)"
+"0","test_scaled$education_num <- as.numeric(test_scaled$education_num)"
+"0","head(train_scaled)"

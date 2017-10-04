@@ -1,0 +1,3 @@
+"0","# create a new column 'greater_50k that takes a value of 1 if the income is greater than 50k and 0 otherwise "
+"0","train$greater_50k <- ifelse(train$income == "">50K"", 1, 0)"
+"0","test$greater_50k <- ifelse(test$income == "">50K."", 1, 0)"

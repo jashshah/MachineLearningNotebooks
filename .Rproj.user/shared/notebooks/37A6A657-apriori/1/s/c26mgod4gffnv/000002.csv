@@ -1,0 +1,4 @@
+"0","# data cleaning and manipulations"
+"0","# make sure that the Member numbers are of numeric data type and then sort the dataframe based on the Member_number."
+"0","df_sorted <- df_groceries[order(df_groceries$Member_number),]"
+"0","df_sorted$Member_number <- as.numeric(df_sorted$Member_number)"

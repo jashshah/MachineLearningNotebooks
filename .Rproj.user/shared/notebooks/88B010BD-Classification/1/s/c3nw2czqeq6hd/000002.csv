@@ -1,0 +1,7 @@
+"0","# Since there is some amount of imbalance in the number of observations belonging to each class, (75% of the observations are classifed as having income less than 50k), the minority class viz. the income greater than 50k can be oversampled."
+"0","# create a temporary dataframe that excludes the dependent variable"
+"0","# train_temp_df <- train_scaled %>% select(-greater_50k)"
+"0","set.seed(1)"
+"0","upSampledTrain <- caret::upSample(x = train_scaled %>% select(-greater_50k), "
+"0","                                  y = factor(train_scaled$greater_50k), "
+"0","                                  yname = 'greater_50k')"

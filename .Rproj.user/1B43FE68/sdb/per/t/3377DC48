@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "num_NAS <- function(DataFrame){\n  return(sapply(DataFrame, function(x) sum(is.na(x))))\n}\n\nreturn_max <- function(x){\n  \n  val <- names(sort(table(x), decreasing = TRUE))[1]\n  \n  return(val)\n  \n}\n\nplot_histogram <- function(X, var){\n  \n  print(ggplot(X, aes_string(var, '..density..')) + \n    geom_histogram() + ylab('') + \n    geom_line(aes(y = ..density..), stat = 'density'))\n}\n\n\nplot_boxplot <- function(X, X_var, Y_var){\n  print(ggplot(train, aes_string(X_var, Y_var)) + geom_boxplot())\n}\n\nplot_faceted_histogram <- function(X, var, facet_by){\n  \n  print(ggplot(X, aes_string(var, '..density..')) + geom_histogram() + facet_wrap(facet_by))\n  \n}\n\nplot_bar_plot_count <- function(X, var){\n  print(ggplot(X, aes_string(var)) + \n          geom_bar() + \n          theme(axis.text.x = element_text(angle = 90, hjust = 1)))\n}\n\nplot_bar_plot_prop <- function(X, var1, var2){\n  \n  df <- X %>%\n    group_by_(var1) %>%\n    summarise(mean = mean(!!sym(var2)))\n  \n  print(ggplot(df, aes_string(var1, 'mean')) + geom_bar(stat = 'identity') + \n    theme(axis.text.x = element_text(angle = 90, hjust = 1)) + ylab('Proportion')) \n  \n}\n\n\nplot_bar_plot_stacked <- function(X, var1, var2){\n  \n  print(ggplot(X, aes_string(var1, fill = var2)) + geom_bar(position = \"stack\") + theme(axis.text.x = element_text(angle = 90, hjust = 1)))\n  \n}\n\ntrain_test_split <- function(DataFrame, DepVar, Split, seed){\n  library(caTools)\n  set.seed(seed)\n  ind <- sample.split(Y = DataFrame[,DepVar], SplitRatio = Split)\n  train <- DataFrame[ind,]\n  test <- DataFrame[!ind,]\n  return(list(train = train, test = test))\n  print(\"The training and testing datasets have been created.\")\n}\n\n",
+    "created" : 1506064026599.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2630810028",
+    "id" : "3377DC48",
+    "lastKnownWriteTime" : 1507033512,
+    "last_content_update" : 1507033512181,
+    "path" : "~/Lemoxo/Machine Learning Notebooks/ML Notebooks - R Files/functions.R",
+    "project_path" : "functions.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

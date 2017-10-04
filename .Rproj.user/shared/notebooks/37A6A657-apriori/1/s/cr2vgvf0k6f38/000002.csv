@@ -1,0 +1,3 @@
+"0","# load the data"
+"0","df_groceries <- read.csv(""data/groceries.csv"")"
+"0","head(df_groceries)"

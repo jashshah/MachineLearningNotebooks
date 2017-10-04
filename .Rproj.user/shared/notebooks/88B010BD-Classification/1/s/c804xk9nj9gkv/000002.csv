@@ -1,0 +1,3 @@
+"0","# correlation plot of numeric variables"
+"0","numeric_variables <- c('age', 'fnlwgt', ""capital_gain"", ""capital_loss"", ""hours_per_week"")"
+"0","corrplot(cor(train[numeric_variables]), method = ""number"")"

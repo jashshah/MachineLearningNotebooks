@@ -1,0 +1,4 @@
+"0","# compute the inter observation Eucliaean distance matrix using `dist`"
+"0","hc.complete <- hclust(dist(nci), method=""complete"")"
+"0","# plot the dendogram"
+"0","plot(hc.complete, main=""Complete Linkage "", xlab="""", sub="""", cex=0.9, labels = cancer_type)"

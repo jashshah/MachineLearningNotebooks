@@ -1,0 +1,23 @@
+"0","# Split the data frame into a matrix containing the predictors and a vector containing the response"
+"0","X_train <- train_scaled %>%"
+"0","  dplyr::select(-greater_50k) %>%"
+"0","  as.matrix()"
+"2","Warning messages:
+"
+"2","1: Unknown or uninitialised column: 'native_country'. 
+"
+"2","2: Unknown or uninitialised column: 'native_country'. 
+"
+"2","3: Unknown or uninitialised column: 'native_country'. 
+"
+"2","4: Unknown or uninitialised column: 'native_country'. 
+"
+"2","5: Unknown or uninitialised column: 'native_country'. 
+"
+"2","6: Unknown or uninitialised column: 'native_country'. 
+"
+"0","y_train <- as.factor(train_scaled$greater_50k)"
+"0","X_test <- test_scaled %>%"
+"0","  dplyr::select(-greater_50k) %>%"
+"0","  as.matrix()"
+"0","y_test <- as.factor(test_scaled$greater_50k)"

@@ -1,0 +1,6 @@
+"0","# since the native country of 89.5% of observations is United States create a new variable 'is_UnitedStates' that takes a value of 1 if the observation is from the United States and 0 otherwise."
+"0","train$is_UnitedStates <- ifelse(train$native_country == 'United-States', 1, 0)"
+"0","test$is_UnitedStates <- ifelse(test$native_country == 'United-States', 1, 0)"
+"0","train$is_UnitedStates[is.na(train$is_UnitedStates)] <- 1"
+"0","test$is_UnitedStates[is.na(test$is_UnitedStates)] <- 1"
+"0","head(train)"

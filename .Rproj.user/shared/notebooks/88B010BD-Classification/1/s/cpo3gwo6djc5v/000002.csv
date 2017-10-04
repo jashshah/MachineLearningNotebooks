@@ -1,0 +1,6 @@
+"0","# AUC"
+"0","pROC::auc(test_scaled$greater_50k, Y_pred)"
+"1","Area under the curve: "
+"1","0.9028"
+"1","
+"

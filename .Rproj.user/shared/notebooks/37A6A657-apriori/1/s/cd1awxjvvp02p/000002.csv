@@ -1,0 +1,5 @@
+"0","# convert the dataframe into transactions format such that all the items bought at the same time in one row. "
+"0","library(plyr)"
+"0","# convert the dataframe into basket format, based on the Member_number and Date of transaction"
+"0","df_itemList <- ddply(df_groceries,c(""Member_number"",""Date""), "
+"0","                       function(df1) paste(df1$itemDescription, collapse = "",""))"

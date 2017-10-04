@@ -1,0 +1,6 @@
+"0","# divide into training and testing set"
+"0","set.seed(1)"
+"0","trainIndex <- createDataPartition(boston$PRICE, p = .67, list = FALSE, times = 1)"
+"0","train <- boston[trainIndex,]"
+"0","test <- boston[-trainIndex,]"
+"0","head(train)"

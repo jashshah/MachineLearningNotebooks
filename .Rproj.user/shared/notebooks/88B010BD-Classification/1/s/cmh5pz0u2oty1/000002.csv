@@ -1,0 +1,5 @@
+"0","library(glmnet)"
+"0","# define the values for lambda"
+"0","lambdas <- 10^seq(3, -2, by = -.1)"
+"0","# train for different values of lambda"
+"0","fit <- glmnet(X_train, y_train, alpha = 0, lambda = lambdas, family = 'binomial')"

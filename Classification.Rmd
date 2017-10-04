@@ -1,0 +1,858 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r, include=TRUE, message=FALSE}
+source('libraries.R')
+source('functions.R')
+```
+
+
+```{r, message=FALSE, include=TRUE}
+
+col_names <- c('age', 'workclass', 'fnlwgt', 'education', 'education_num', 'marital_status',
+               'occupation', 'relationship', 'race', 'sex', 'capital_gain', 'capital_loss',
+               'hours_per_week', 'native_country', 'income')
+
+# read the training data 
+train <- read_csv('data/adult_train.csv', na = '?', col_names = col_names, skip = 1)
+
+# read the testing data
+test <- read_csv('data/adult_test', 
+                 na = '?', 
+                 col_names = col_names)
+```
+
+# EDA
+
+```{r}
+# take a peak at the data and the data type of each variable
+str(data.frame(train))
+```
+
+```{r}
+# check the number of NAs in each column
+num_NAS(train)
+```
+
+```{r}
+# create a new column 'greater_50k that takes a value of 1 if the income is greater than 50k and 0 otherwise 
+
+train$greater_50k <- ifelse(train$income == ">50K", 1, 0)
+test$greater_50k <- ifelse(test$income == ">50K.", 1, 0)
+```
+
+
+```{r}
+# proportion of observations in each Native Country
+
+prop.table(table(train$native_country, useNA = 'always'))[order(table(train$native_country), decreasing = TRUE)][1:5]
+```
+
+
+```{r}
+# since the native country of 89.5% of observations is United States create a new variable 'is_UnitedStates' that takes a value of 1 if the observation is from the United States and 0 otherwise.
+
+train$is_UnitedStates <- ifelse(train$native_country == 'United-States', 1, 0)
+test$is_UnitedStates <- ifelse(test$native_country == 'United-States', 1, 0)
+
+train$is_UnitedStates[is.na(train$is_UnitedStates)] <- 1
+test$is_UnitedStates[is.na(test$is_UnitedStates)] <- 1
+
+head(train)
+```
+
+
+```{r}
+# summary statistics of all the variables
+
+summary(train)
+```
+
+```{r}
+# Replace NA values in workclass, occupation and Native Country by the maximum occurring values.
+
+# workclass
+train$workclass[is.na(train$workclass)] <- return_max(train$workclass)
+test$workclass[is.na(test$workclass)] <- return_max(train$workclass)
+
+# occupation
+train$occupation[is.na(train$occupation)] <- return_max(train$occupation)
+test$occupation[is.na(test$occupation)] <- return_max(train$occupation)
+
+# Native Country
+train$native_country[is.na(train$native_country)] <- return_max(train$native_country)
+test$native_country[is.na(test$native_country)] <- return_max(train$native_country)
+
+```
+
+### age
+
+```{r}
+# Histogram with a density curve
+plot_histogram(train, 'age')
+```
+
+
+```{r}
+# boxplot comparing the distributions across the two levels of income
+plot_boxplot(train, 'income', 'age')
+```
+
+
+```{r}
+# Faceted historgram by income
+plot_faceted_histogram(train, 'age', 'income')
+```
+
+### fnlwgt
+
+```{r}
+plot_histogram(train, 'fnlwgt')
+```
+
+```{r}
+plot_boxplot(train, 'income', 'fnlwgt')
+```
+
+```{r}
+plot_faceted_histogram(train, 'fnlwgt', 'income')
+```
+
+### Capital-gain
+
+```{r}
+# Histogram with a density curve
+plot_histogram(train, 'capital_gain')
+```
+
+```{r}
+plot_boxplot(train, 'income', 'capital_gain')
+```
+
+```{r}
+plot_faceted_histogram(train, 'capital_gain', 'income')
+```
+
+### Capital-loss
+
+```{r}
+# Histogram with a density curve
+plot_histogram(train, 'capital_loss')
+```
+
+```{r}
+plot_boxplot(train, 'income', 'capital_loss')
+```
+
+```{r}
+plot_faceted_histogram(train, 'capital_loss', 'income')
+```
+
+### Hours-per-week
+
+```{r}
+# Histogram with a density curve
+plot_histogram(train, 'hours_per_week')
+```
+
+```{r}
+plot_boxplot(train, 'income', 'hours_per_week')
+```
+
+```{r}
+plot_faceted_histogram(train, 'hours_per_week', 'income')
+```
+
+### Workclass
+
+```{r}
+# Univariate analysis - count of each level in workclass 
+plot_bar_plot_count(train, 'workclass')
+```
+
+```{r}
+# proportion of observations that have income greater than 50k for each level
+plot_bar_plot_prop(train, 'workclass', 'greater_50k')
+```
+
+```{r}
+# stacked bar plot - for a given level shows the number of obervations belonging to each income level
+plot_bar_plot_stacked(train, 'workclass', 'income')
+```
+
+
+### Education
+```{r}
+plot_bar_plot_count(train, 'education')
+```
+
+```{r}
+plot_bar_plot_prop(train, 'education', 'greater_50k')
+```
+
+```{r}
+plot_bar_plot_stacked(train, 'education', 'income')
+```
+
+### Marital Status
+```{r}
+plot_bar_plot_count(train, 'marital_status')
+```
+
+```{r}
+plot_bar_plot_prop(train, 'marital_status', 'greater_50k')
+```
+
+```{r}
+plot_bar_plot_stacked(train, 'marital_status', 'income')
+```
+
+### Occupation
+
+```{r}
+plot_bar_plot_count(train, 'occupation')
+```
+
+```{r}
+plot_bar_plot_prop(train, 'occupation', 'greater_50k')
+```
+
+```{r}
+plot_bar_plot_stacked(train, 'occupation', 'income')
+```
+
+### Relationship
+
+```{r}
+plot_bar_plot_count(train, 'relationship')
+```
+
+```{r}
+plot_bar_plot_prop(train, 'relationship', 'greater_50k')
+```
+
+```{r}
+plot_bar_plot_stacked(train, 'relationship', 'income')
+```
+
+### Race
+
+```{r}
+plot_bar_plot_count(train, 'race')
+```
+
+```{r}
+plot_bar_plot_prop(train, 'race', 'greater_50k')
+```
+
+```{r}
+plot_bar_plot_stacked(train, 'race', 'income')
+```
+
+### Sex
+
+```{r}
+plot_bar_plot_count(train, 'sex')
+```
+
+```{r}
+plot_bar_plot_prop(train, 'sex', 'greater_50k')
+```
+
+```{r}
+plot_bar_plot_stacked(train, 'sex', 'income')
+```
+
+```{r}
+# mosaic plot - shows the proportions of observations in each level of the independent variable for each level of the dependent variable
+mosaicplot(income ~ sex, data = train, main = '')
+```
+
+
+### is_UnitedStates
+```{r}
+plot_bar_plot_count(train, 'is_UnitedStates')
+```
+
+```{r}
+plot_bar_plot_prop(train, 'is_UnitedStates', 'greater_50k')
+```
+
+```{r}
+plot_bar_plot_stacked(train, 'is_UnitedStates', 'income')
+```
+
+```{r}
+mosaicplot(income ~ is_UnitedStates, data = train, main = '')
+```
+
+
+### Correllogram
+
+```{r}
+# correlation plot of numeric variables
+numeric_variables <- c('age', 'fnlwgt', "capital_gain", "capital_loss", "hours_per_week")
+
+corrplot(cor(train[numeric_variables]), method = "number")
+```
+
+# Feature Engineering
+
+```{r}
+# remove the columns that are not required
+train <- train %>%
+  select(-education, -native_country, -income)
+
+test <- test %>%
+  select(-education, -native_country, -income)
+```
+
+```{r}
+summary(train)
+```
+
+```{r}
+table(train$marital_status)
+```
+
+
+```{r}
+train$workclass <- as.factor(train$workclass)
+train$marital_status <- as.factor(train$marital_status)
+train$occupation <- as.factor(train$occupation)
+train$relationship <- as.factor(train$relationship)
+train$race <- as.factor(train$race)
+train$sex <- as.factor(train$sex)
+
+test$workclass <- as.factor(test$workclass)
+test$marital_status <- as.factor(test$marital_status)
+test$occupation <- as.factor(test$occupation)
+test$relationship <- as.factor(test$relationship)
+test$race <- as.factor(test$race)
+test$sex <- as.factor(test$sex)
+```
+
+```{r}
+# one hot encode the categorical variables after dropping the first level 
+
+dummy <- dummyVars( ~ ., data = train, fullRank = TRUE)
+
+train_dummies <- data.frame(predict(dummy, train))
+test_dummies <- data.frame(predict(dummy, test))
+
+head(train_dummies)
+```
+
+
+```{r}
+# convert education_num to character since it is not be normalised/scaled
+train_dummies$education_num <- as.character(train_dummies$education_num)
+test_dummies$education_num <- as.character(test_dummies$education_num)
+```
+
+
+```{r}
+# min max scaler to scale variables between 1 and 0
+
+# intialize and learn the parameters of the scaled object
+scaler <- preProcess(train_dummies, method = 'range')
+
+# scale the training set
+train_scaled <- predict(scaler, train_dummies)
+
+# scale the test set
+test_scaled <- predict(scaler, test_dummies)
+```
+
+```{r}
+# all numeric variables have been scaled between 0 and 1
+summary(train_scaled)
+```
+
+```{r}
+# label encode education_num
+train_scaled$education_num <- as.numeric(train_scaled$education_num)
+test_scaled$education_num <- as.numeric(test_scaled$education_num)
+
+head(train_scaled)
+```
+
+# Modelling
+
+### Logistic Regression
+
+```{r}
+model_glm <- glm(greater_50k ~ ., data = train_scaled, family = binomial(link = 'logit'))
+
+# check the regression coefficients and the significance
+summary(model_glm)
+```
+
+```{r}
+# predict on the test set
+
+Y_pred <- predict(model_glm, newdata = test_scaled, type = 'response')
+
+# select a probability threshold
+thresh <- 0.5
+
+# values greater than thresh are assigned 1 else 0
+Y_pred_vals <- ifelse(Y_pred > thresh, 1, 0)
+
+# confusion matrix and some important metrics - precision, recall, sensitivity, specificity and kappa score
+caret::confusionMatrix(data = Y_pred_vals, reference = test_scaled$greater_50k, positive = '1', mode =  "everything")
+```
+
+```{r}
+# AUC
+pROC::auc(test_scaled$greater_50k, Y_pred)
+```
+
+
+```{r}
+# plot the AUC curve
+pred1 <- ROCR::prediction(Y_pred, test_scaled$greater_50k)
+perf1 <- ROCR::performance(pred1,"tpr","fpr")
+plot(perf1)
+```
+
+
+#### Oversampling
+
+```{r}
+# check the distribution of each class
+prop.table(table(train_scaled$greater_50k))
+```
+
+
+```{r}
+# Since there is some amount of imbalance in the number of observations belonging to each class, (75% of the observations are classifed as having income less than 50k), the minority class viz. the income greater than 50k can be oversampled.
+
+# create a temporary dataframe that excludes the dependent variable
+# train_temp_df <- train_scaled %>% select(-greater_50k)
+
+set.seed(1)
+upSampledTrain <- caret::upSample(x = train_scaled %>% select(-greater_50k), 
+                                  y = factor(train_scaled$greater_50k), 
+                                  yname = 'greater_50k')
+```
+
+```{r}
+# check new distribution of classes in the upsampled set
+prop.table(table(upSampledTrain$greater_50k))
+```
+
+```{r}
+# fit a new logistic regression model on the oversampled data
+model_glm_resamp <- glm(greater_50k ~ . -1, 
+                        data = upSampledTrain, 
+                        family = binomial(link = 'logit'))
+
+Y_pred_resamp <- predict(model_glm_resamp, newdata = test_scaled, type = 'response') # test set remains the same
+
+thresh <- 0.5
+Y_pred_resamp_vals <- ifelse(Y_pred_resamp > thresh, 1, 0)
+
+# check the score on the original test set. Note that the observations from test set were not oversampled
+
+caret::confusionMatrix(data = Y_pred_resamp_vals, reference = test_scaled$greater_50k, positive = '1', mode =  "everything")
+```
+
+
+### Ridge
+
+```{r}
+
+# Split the data frame into a matrix containing the predictors and a vector containing the response
+
+X_train <- train_scaled %>%
+  select(-greater_50k) %>%
+  as.matrix()
+
+y_train <- as.factor(train_scaled$greater_50k)
+
+X_test <- test_scaled %>%
+  select(-greater_50k) %>%
+  as.matrix()
+
+y_test <- as.factor(test_scaled$greater_50k)
+```
+
+
+```{r}
+library(glmnet)
+
+# define the values for lambda
+lambdas <- 10^seq(3, -2, by = -.1)
+
+# train for different values of lambda
+fit <- glmnet(X_train, y_train, alpha = 0, lambda = lambdas, family = 'binomial')
+```
+
+
+```{r}
+# find optimal value for lambda
+cv_fit <- cv.glmnet(X_train, y_train, alpha = 0, lambda = lambdas, family="binomial")
+opt_lambda <- cv_fit$lambda.min
+
+# extract all the fitted models
+fit <- cv_fit$glmnet.fit
+
+# predict on the test set selecting the optimal value for lambda
+y_pred <- predict(fit, s = opt_lambda, newx = X_test, type = 'response')
+
+# define threshold and find the values based on the predictions
+thresh <- 0.5
+Y_pred_vals <- ifelse(y_pred > thresh, 1, 0)
+
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+```
+
+### Lasso
+
+```{r}
+library(glmnet)
+
+# fit model by taking an arbitary value for alpha
+
+fit <- glmnet(X_train, y_train, family="binomial", alpha=0.05, lambda=0)
+
+y_pred <- predict(fit, newx = X_test, type = 'response')
+
+# define threshold and find the values based on the predictions
+thresh <- 0.5
+Y_pred_vals <- ifelse(y_pred > thresh, 1, 0)
+
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+```
+
+### Elastic Net
+```{r}
+library(glmnet)
+
+# fit model
+
+fit <- glmnet(X_train, y_train, family="binomial", alpha=0.05, lambda=0.001)
+
+y_pred <- predict(fit, newx = X_test, type = 'response')
+
+# define threshold and find the values based on the predictions
+thresh <- 0.5
+Y_pred_vals <- ifelse(y_pred > thresh, 1, 0)
+
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+```
+
+### Linear Discriminant Analysis
+```{r}
+library(MASS)
+
+fit <- lda(greater_50k ~ ., data = train_scaled)
+
+# predict on the test set
+Y_pred_vals <- predict(fit, test_scaled)$class
+
+# confusion matrix and some important metrics - precision, recall, sensitivity, specificity and kappa score
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+
+```
+
+### Quadratic Disriminant Analysis
+
+```{r}
+
+# Turns out race_black and race_white are perfectly correlated.
+
+# library(MASS)
+# 
+# fit <- qda(greater_50k ~ ., data = train_scaled)
+# 
+# # predict on the test set
+# Y_pred_vals <- predict(fit, test_scaled)$class
+# 
+# # confusion matrix and some important metrics - precision, recall, sensitivity, specificity and kappa score
+# caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+
+```
+
+
+### Data Preprocessing for KNN, SVM and Neural Nets
+
+```{r}
+# one hot encode the categorical variables after not dropping the first level 
+
+dummy <- dummyVars( ~ ., data = train, fullRank = FALSE)
+
+train_dummies <- data.frame(predict(dummy, train))
+test_dummies <- data.frame(predict(dummy, test))
+
+head(train_dummies)
+```
+
+
+```{r}
+# convert education_num to character since it is not be normalised/scaled
+train_dummies$education_num <- as.character(train_dummies$education_num)
+test_dummies$education_num <- as.character(test_dummies$education_num)
+```
+
+```{r}
+# min max scaler to scale variables between 1 and 0
+
+# intialize and learn the parameters of the scaled object
+scaler <- preProcess(train_dummies, method = 'range')
+
+# scale the training set
+train_scaled <- predict(scaler, train_dummies)
+
+# scale the test set
+test_scaled <- predict(scaler, test_dummies)
+```
+
+```{r}
+# label encode education_num
+train_scaled$education_num <- as.numeric(train_scaled$education_num)
+test_scaled$education_num <- as.numeric(test_scaled$education_num)
+```
+
+```{r}
+head(train_scaled)
+```
+
+```{r}
+# Split the data frame into a matrix containing the predictors and a vector containing the response
+
+X_train <- train_scaled %>%
+  dplyr::select(-greater_50k) %>%
+  as.matrix()
+
+y_train <- as.factor(train_scaled$greater_50k)
+
+X_test <- test_scaled %>%
+  dplyr::select(-greater_50k) %>%
+  as.matrix()
+
+y_test <- as.factor(test_scaled$greater_50k)
+```
+
+### K Nearest Neighbours
+
+```{r}
+library(class)
+
+# fit a KNN with the 5 nearest neigbours
+
+Y_pred_vals <- knn(X_train, X_test, cl = y_train, k = 5)
+
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+```
+
+
+```{r}
+library(e1071)
+
+fit <- svm(x = X_train, y = y_train, scale = FALSE, type = 'C-classification')
+
+Y_pred_vals <- predict(fit, newdata = X_test)
+
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+```
+
+### Neural Networks
+
+```{r}
+checkInstallLoad('nnet')
+
+# Create a new data frame containing the training data
+
+train_scaled_nn <- train_scaled
+train_scaled_nn$greater_50k <- as.factor(train_scaled_nn$greater_50k)
+
+fit <- nnet(greater_50k ~ ., data = train_scaled_nn, size = 10, rang = 0.5, maxit = 100)
+
+Y_pred_vals <- predict(fit, X_test, type = "class")
+
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+```
+
+### Decision Trees
+
+```{r}
+
+# label encode education_num
+train_dummies$education_num <- as.numeric(train_dummies$education_num)
+test_dummies$education_num <- as.numeric(test_dummies$education_num)
+
+checkInstallLoad("rpart")
+
+# use the unscaled data to train the decision tree classifier
+fit <- rpart(greater_50k ~ ., data = train_dummies, method = "class")
+
+Y_pred_vals <- predict(fit, newdata = test_dummies, type = "class")
+
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+
+```
+
+```{r}
+# plot the decision tree
+
+checkInstallLoad("RColorBrewer")
+checkInstallLoad("rattle")
+
+fancyRpartPlot(fit)
+
+```
+
+#### Grid Search
+
+```{r}
+
+# create another data frame that converts the response to factor
+
+train_dummies_grid <- train_dummies
+train_dummies_grid$greater_50k <- as.factor(train_dummies_grid$greater_50k)
+
+# grid search with 5 fold cross validation
+fitControl <- trainControl(method = "repeatedcv",
+                           number = 5,
+                           ## repeated 1 time
+                           repeats = 1)
+
+
+# define the hyperparameters for the grid search
+param_grid <- data.frame(cp = c(1, 0.1, 0.01, 0.001, 0.001))
+
+# create a grid search object with five folds using accuracy as a metric
+set.seed(1)
+grid_fit <- train(greater_50k ~ ., data = train_dummies_grid, 
+                 method = "rpart", 
+                 trControl = fitControl,
+                 tuneGrid = param_grid)
+
+# predict using the best model
+Y_pred_vals <- predict(grid_fit, newdata = test_dummies)
+
+# performance of the model on the test set
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+```
+
+### Random Forest
+```{r}
+checkInstallLoad("randomForest")
+
+train_dummies$greater_50k <- as.factor(train_dummies$greater_50k)
+
+fit <- randomForest(greater_50k ~ ., data = train_dummies, ntree = 10)
+
+Y_pred_vals <- predict(fit, newdata = test_dummies)
+
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+```
+
+### Gradient Boosting
+
+```{r}
+checkInstallLoad("gbm")
+
+# convert the response variable to character
+
+train_dummies_gbm <- train_dummies
+train_dummies_gbm$greater_50k <- as.character(train_dummies_gbm$greater_50k)
+
+fit <- gbm(greater_50k ~ ., data = train_dummies_gbm)
+
+Y_pred <- predict(fit, newdata = test_dummies, n.trees = 500, type = "response")
+
+# select a probability threshold
+thresh <- 0.5
+
+# values greater than thresh are assigned 1 else 0
+Y_pred_vals <- ifelse(Y_pred > thresh, 1, 0)
+
+# confusion matrix and some important metrics - precision, recall, sensitivity, specificity and kappa score
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+
+```
+
+### Adaboost
+```{r}
+library(adabag)
+
+train_dummies_ada <- train_dummies
+train_dummies_ada$greater_50k <- as.factor(train_dummies_ada$greater_50k)
+
+fit <- boosting(greater_50k ~ ., data = train_dummies_ada, mfinal = 10)
+
+Y_pred_list <- predict(fit, newdata = test_dummies, type = "class")
+
+# select a probability threshold
+thresh <- 0.5
+
+# values greater than thresh are assigned 1 else 0
+Y_pred_vals <- ifelse(Y_pred_list$prob[,2] > thresh, 1, 0)
+
+# confusion matrix and some important metrics - precision, recall, sensitivity, specificity and kappa score
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+```
+
+### XGBoost
+
+```{r}
+library(xgboost)
+
+# create a new vector of class labels that contains values in form of 0 and 1
+
+y_train_xgb <- as.numeric(as.character(y_train))
+
+fit <- xgboost(X_train, y_train_xgb, nrounds = 10, verbose = 0, objective = "binary:logistic")
+
+Y_pred <- predict(fit, newdata = X_test, t)
+
+# select a probability threshold
+thresh <- 0.5
+
+# values greater than thresh are assigned 1 else 0
+Y_pred_vals <- ifelse(Y_pred > thresh, 1, 0)
+
+# confusion matrix and some important metrics - precision, recall, sensitivity, specificity and kappa score
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+
+```
+
+### Bagging
+
+```{r}
+checkInstallLoad("randomForest")
+
+train_dummies$greater_50k <- as.factor(train_dummies$greater_50k)
+
+fit <- randomForest(greater_50k ~ ., 
+                    data = train_dummies, 
+                    ntree = 10, 
+                    mtry = sum(names(train_dummies) != "greater_50k")) # Include all variables 
+
+Y_pred_vals <- predict(fit, newdata = test_dummies)
+
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+```
+
+
+### Naive Bayes
+
+```{r}
+checkInstallLoad('e1071')
+
+# fit a naive bayes model
+fit <- naiveBayes(greater_50k ~ ., data = train_dummies)
+
+# predict on the test set
+Y_pred_vals <- predict(fit, test_dummies)
+
+# confusion matrix and some important metrics - precision, recall, sensitivity, specificity and kappa score
+caret::confusionMatrix(data = Y_pred_vals, reference = y_test, positive = '1', mode =  "everything")
+
+```

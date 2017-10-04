@@ -1,0 +1,27 @@
+"0","# load the data set"
+"0","boston <- read_csv(""data/boston.csv"")"
+"2","Parsed with column specification:
+cols(
+  CRIM = col_double(),
+  ZN = col_double(),
+  INDUS = col_double(),
+  CHAS = col_double(),
+  NOX = col_double(),
+  RM = col_double(),
+  AGE = col_double(),
+  DIS = col_double(),
+  RAD = col_double(),
+  TAX = col_double(),
+  PTRATIO = col_double(),
+  B = col_double(),
+  LSTAT = col_double(),
+  PRICE = col_double()
+)
+"
+"2","Warning message:
+"
+"2","Unknown or uninitialised column: 'summary'. 
+"
+"0","# convert CHAS and RAD to factor"
+"0","boston$CHAS <- as.factor(boston$CHAS)"
+"0","boston$RAD <- as.factor(boston$RAD)"

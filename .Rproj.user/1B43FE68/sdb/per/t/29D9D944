@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "checkInstallLoad <- function(libName) {\n  if(!require(libName, character.only=TRUE)) {\n    install.packages(libName)\n    require(libName, character.only=TRUE)\n  }\n}\n\n\ncheckInstallLoad('readr')\ncheckInstallLoad('dplyr')\ncheckInstallLoad('rlang')\ncheckInstallLoad('corrplot')\ncheckInstallLoad('pROC')\ncheckInstallLoad('ROCR')\ncheckInstallLoad('caret')\ncheckInstallLoad('glmnet')\ncheckInstallLoad('gridExtra')\n",
+    "created" : 1506064356481.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1261647199",
+    "id" : "29D9D944",
+    "lastKnownWriteTime" : 1507033365,
+    "last_content_update" : 1507033365655,
+    "path" : "~/Lemoxo/Machine Learning Notebooks/ML Notebooks - R Files/libraries.R",
+    "project_path" : "libraries.R",
+    "properties" : {
+        "tempName" : "Untitled3"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

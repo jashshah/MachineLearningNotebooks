@@ -1,0 +1,3 @@
+"0","# delete date and member_number"
+"0","df_itemList$Member_number <- NULL"
+"0","df_itemList$Date <- NULL"

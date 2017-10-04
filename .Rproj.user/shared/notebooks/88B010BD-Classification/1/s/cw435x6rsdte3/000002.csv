@@ -1,0 +1,2 @@
+"0","# proportion of observations that have income greater than 50k for each level"
+"0","plot_bar_plot_prop(train, 'workclass', 'greater_50k')"

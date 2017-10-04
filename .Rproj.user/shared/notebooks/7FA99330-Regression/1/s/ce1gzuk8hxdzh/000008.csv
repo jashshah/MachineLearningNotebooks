@@ -1,0 +1,4 @@
+"0","# boxplots - to show the relationship between a categorical predictor variable and the response variable"
+"0","p1 <- ggplot(boston, aes(x = CHAS, y = PRICE)) + geom_boxplot()"
+"0","p2 <- ggplot(boston, aes(x = RAD, y = PRICE)) + geom_boxplot()"
+"0","grid.arrange(p1, p2, ncol = 2)"

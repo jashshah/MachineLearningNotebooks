@@ -1,0 +1,20 @@
+"0","# Compute the similarity between two clusterings of the same data set."
+"0","# checkInstallLoad(""clusteval"")"
+"0","# cluster_similarity(cluster_labs, cancer_type)"
+"0","checkInstallLoad(""mclust"")"
+"2","Loading required package: mclust
+"
+"2","package ‘mclust’ was built under R version 3.4.2"
+"2","    __  ___________    __  _____________
+   /  |/  / ____/ /   / / / / ___/_  __/
+  / /|_/ / /   / /   / / / /\__ \ / /   
+ / /  / / /___/ /___/ /_/ /___/ // /    
+/_/  /_/\____/_____/\____//____//_/    version 5.3
+"
+"2","Type 'citation(""mclust"")' for citing this R package in publications.
+"
+"0","adjustedRandIndex(cluster_labs, cancer_type)"
+"1","[1]"
+"1"," 0.4343331"
+"1","
+"

@@ -1,0 +1,5 @@
+"0","# one hot encode the categorical variables after dropping the first level "
+"0","dummy <- dummyVars( ~ ., data = train, fullRank = TRUE)"
+"0","train_dummies <- data.frame(predict(dummy, train))"
+"0","test_dummies <- data.frame(predict(dummy, test))"
+"0","head(train_dummies)"

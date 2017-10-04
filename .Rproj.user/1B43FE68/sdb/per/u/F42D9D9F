@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "train <- read_csv('data/adult_train.csv', na = '?')\ntest <- read_csv('data/adult_test', \n                 na = '?', \n                 col_names = colnames(train))\n\nnames(table(train$Workclass)[which.max(table(train$Workclass))])\nnames(sort(table(train$Workclass), decreasing = TRUE))[1]\n\ntable(train$Workclass, useNA = 'always')\n\ntable(replace_NAs_max(train$Workclass), useNA = 'always')\n\nreturn_max(train$Workclass)\n\nreturn_max(train$`Native-country`)\n\ntable(train$Workclass, useNA = 'always')\ntable(train$Occupation, useNA = 'always')\ntable(train$`Native-country`, useNA = 'always')\n\n\nggplot(train, aes(Age, ..density..)) + \n  geom_histogram() + ylab('') + \n  geom_line(aes(y = ..density..), stat = 'density')\n\nplot_histogram(train, 'Age')\n\n\nggplot(train, aes(Income, Age)) + geom_boxplot()\n\nplot_boxplot(train, 'Income', 'Age')\n\n\n\nggplot(train, aes(Age, ..density..)) + geom_histogram() + facet_wrap(~Income)\n\nft <- 'Income'\nft <- enquo(ft)\n\nggplot(train, aes(Age, ..density..)) + geom_histogram() + facet_wrap(~!!ft)\n\nplot_faceted_histogram(train, 'Age', 'Income')\n\nx = rnorm(1000);\n\nnames(train)\n\n\nggplot(train, aes(Workclass)) + geom_bar() + theme(axis.text.x = element_text(angle = 90, hjust = 1))\n\n\nplot_bar_plot_count(train, 'Workclass')\n\ntrain %>%\n  group_by(Workclass) %>%\n  summarise(mean = mean(greater_50k)) %>%\n  ggplot(aes(Workclass, mean)) + geom_bar(stat = 'identity') + \n  theme(axis.text.x = element_text(angle = 90, hjust = 1))\n\nplot_bar_plot_prop(train, 'Workclass', 'greater_50k')\n\nggplot(train, aes(Workclass, fill = Income)) + geom_bar(position = \"stack\") + theme(axis.text.x = element_text(angle = 90, hjust = 1))\n\nplot_bar_plot_stacked(train, 'Workclass', 'Income')\n\nsum(is.na(train$is_UnitedStates))\n\nstr(as.data.frame(train))\n\nmosaicplot(Income ~ Sex, data = train, main = '')\n\ntypeof(train$Age)\n\n\ndummies <- dummyVars(Income ~ ., data = train)\n\n\ndf1 <- data.frame(predict(dummies, train))\n\ndf1 <- train %>%\n  select(-`Education-num`, )\n\n\nnames(train_scaled)\n\ndf1 <- test\n\ndf1$education_num <- factor(df1$education_num)\n\ntable(df1$education_num)\n\nstr(df1$education_num)\n\nlevels(df1$education_num)\n\n?prediction\n\nnames(train_scaled)\n\ntrain_scaled %>% select(-greater_50k)\n\ntrain_scaled[-c(\"greater_50k\")]\n\ncorrplot(cor(train_scaled))\n\nstr(train_dummies)\n\n(p2 <- ggplot(boston, aes(y = PRICE, group = RAD)) + geom_boxplot())\n\n\nna_vals <- sapply(nci, function(x) sum(is.na(x)))\ninf_vals <- sapply(nci, function(x) sum(is.infinite(x)))\n\nsum(na_vals > 0)\nsum(inf_vals > 0)\n\nsum(is.na(nci))\n\nnci2 <- nci\nnci[nci == \"\"] <- NA\nsum(is.na(nci))\n\nnci$cancer_typ\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "created" : 1506064914032.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "2418823054",
+    "id" : "F42D9D9F",
+    "lastKnownWriteTime" : 7453010356431054156,
+    "last_content_update" : 1507037600053,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

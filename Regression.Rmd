@@ -1,0 +1,141 @@
+---
+title: "Regression"
+output: html_notebook
+---
+```{r, include=TRUE, message=FALSE}
+source('libraries.R')
+source('functions.R')
+```
+
+
+```{r}
+# load the data set
+boston <- read_csv("data/boston.csv")
+
+# convert CHAS and RAD to factor
+boston$CHAS <- as.factor(boston$CHAS)
+boston$RAD <- as.factor(boston$RAD)
+```
+
+## Exploratory Data Analysis
+
+```{r}
+# mean, median, max, min and standard deviation of the data
+summary(boston)
+```
+
+```{r}
+# correlation plot
+corrplot(cor(boston %>% select(-RAD, -CHAS)))
+```
+
+```{r}
+# scatterplots - to show the relationship between a predictor numeric variable and the response variable
+
+p1 <- ggplot(boston, aes(x = LSTAT, y = PRICE)) + geom_point()
+p2 <- ggplot(boston, aes(x = RM, y = PRICE)) + geom_point()
+p3 <- ggplot(boston, aes(x = PTRATIO, y = PRICE)) + geom_point()
+
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+```{r}
+# boxplots - to show the relationship between a categorical predictor variable and the response variable
+
+p1 <- ggplot(boston, aes(x = CHAS, y = PRICE)) + geom_boxplot()
+p2 <- ggplot(boston, aes(x = RAD, y = PRICE)) + geom_boxplot()
+
+grid.arrange(p1, p2, ncol = 2)
+```
+
+```{r}
+# divide into training and testing set
+
+set.seed(1)
+trainIndex <- createDataPartition(boston$PRICE, p = .67, list = FALSE, times = 1)
+
+train <- boston[trainIndex,]
+test <- boston[-trainIndex,]
+
+head(train)
+```
+
+### Data Preprocessing
+
+```{r}
+X_train <- train %>%
+  select(-PRICE)
+
+X_test <- test %>%
+  select(-PRICE)
+
+y_train <- train %>%
+  pull(PRICE)
+
+y_test <- test %>%
+  pull(PRICE)
+```
+
+
+```{r}
+# min max scaler to scale variables between 1 and 0
+
+# intialize and learn the parameters of the scaled object
+scaler <- preProcess(X_train, method = 'range')
+
+# scale the training set
+X_train_scaled <- predict(scaler, X_train)
+
+# scale the test set
+X_test_scaled <- predict(scaler, X_test)
+```
+
+```{r}
+train_scaled <- data.frame(X_train_scaled, PRICE = y_train)
+test_scaled <- data.frame(X_test_scaled, PRICE = y_test)
+```
+
+### Linear Regression
+
+```{r}
+# fit a multiple linear regression
+fit <- lm(PRICE ~ ., data = train_scaled)
+
+# check the coefficients and significance of the digits
+summary(fit)
+```
+
+```{r}
+# predict on the test set
+pred <- predict(fit, test_scaled)
+
+# estimate test set performace using R-squared and RMSE
+lmValues1 <- data.frame(obs = test_scaled$PRICE, pred = pred)
+defaultSummary(lmValues1)
+```
+
+### Desision Trees Regression
+
+```{r}
+checkInstallLoad("rpart")
+
+# fit a decision tree regressor
+fit <- rpart(PRICE ~ ., data = train, method = "anova")
+
+# predict on the test set
+pred <- predict(fit, test)
+
+# estimate test set performace using R-squared and RMSE
+lmValues1 <- data.frame(obs = test_scaled$PRICE, pred = pred)
+defaultSummary(lmValues1)
+```
+
+```{r}
+# plot the decision tree
+
+checkInstallLoad("RColorBrewer")
+checkInstallLoad("rattle")
+
+fancyRpartPlot(fit)
+```
+

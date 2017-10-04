@@ -1,0 +1,2 @@
+"0","# label encode the cancer type"
+"0","# cancer_type <- as.factor()"

@@ -1,0 +1,7 @@
+"0","# min max scaler to scale variables between 1 and 0"
+"0","# intialize and learn the parameters of the scaled object"
+"0","scaler <- preProcess(X_train, method = 'range')"
+"0","# scale the training set"
+"0","X_train_scaled <- predict(scaler, X_train)"
+"0","# scale the test set"
+"0","X_test_scaled <- predict(scaler, X_test)"

@@ -1,0 +1,13 @@
+"0","# min max scaler to scale variables between 1 and 0"
+"0","# intialize and learn the parameters of the scaled object"
+"0","scaler <- preProcess(train_dummies, method = 'range')"
+"2","Warning messages:
+"
+"2","1: Unknown or uninitialised column: 'native_country'. 
+"
+"2","2: Unknown or uninitialised column: 'native_country'. 
+"
+"0","# scale the training set"
+"0","train_scaled <- predict(scaler, train_dummies)"
+"0","# scale the test set"
+"0","test_scaled <- predict(scaler, test_dummies)"

@@ -1,0 +1,5 @@
+"0","colnames(df_itemList) <- c(""itemList"")"
+"0","# write.csv(df_itemList,""ItemList.csv"", row.names = TRUE)"
+"0","# txn = read.transactions(file=""ItemList.csv"", rm.duplicates= TRUE, format=""basket"",sep="","",cols=1);"
+"0","# add the row numbers such that they can be used as transaction IDs"
+"0","df_itemList$id <- 1:nrow(df_itemList)"

@@ -1,0 +1,4 @@
+"0","# plot the AUC curve"
+"0","pred1 <- ROCR::prediction(Y_pred, test_scaled$greater_50k)"
+"0","perf1 <- ROCR::performance(pred1,""tpr"",""fpr"")"
+"0","plot(perf1)"

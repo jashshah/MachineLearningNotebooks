@@ -1,0 +1,2 @@
+"0","# Histogram with a density curve"
+"0","plot_histogram(train, 'capital_gain')"

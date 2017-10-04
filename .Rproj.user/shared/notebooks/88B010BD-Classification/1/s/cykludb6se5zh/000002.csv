@@ -1,0 +1,2 @@
+"0","# stacked bar plot - for a given level shows the number of obervations belonging to each income level"
+"0","plot_bar_plot_stacked(train, 'workclass', 'income')"

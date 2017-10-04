@@ -1,0 +1,3 @@
+"0","# convert education_num to character since it is not be normalised/scaled"
+"0","train_dummies$education_num <- as.character(train_dummies$education_num)"
+"0","test_dummies$education_num <- as.character(test_dummies$education_num)"

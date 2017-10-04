@@ -1,0 +1,27 @@
+"0","# one hot encode the categorical variables after not dropping the first level "
+"0","dummy <- dummyVars( ~ ., data = train, fullRank = FALSE)"
+"2","Warning messages:
+"
+"2","1: Unknown or uninitialised column: 'native_country'. 
+"
+"2","2: Unknown or uninitialised column: 'native_country'. 
+"
+"2","3: Unknown or uninitialised column: 'native_country'. 
+"
+"2","4: Unknown or uninitialised column: 'native_country'. 
+"
+"2","5: Unknown or uninitialised column: 'native_country'. 
+"
+"2","6: Unknown or uninitialised column: 'native_country'. 
+"
+"2","7: Unknown or uninitialised column: 'native_country'. 
+"
+"2","8: Unknown or uninitialised column: 'native_country'. 
+"
+"2","9: Unknown or uninitialised column: 'native_country'. 
+"
+"2","10: Unknown or uninitialised column: 'native_country'. 
+"
+"0","train_dummies <- data.frame(predict(dummy, train))"
+"0","test_dummies <- data.frame(predict(dummy, test))"
+"0","head(train_dummies)"

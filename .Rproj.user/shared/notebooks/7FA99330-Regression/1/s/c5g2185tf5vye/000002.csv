@@ -1,0 +1,12 @@
+"0","# plot the decision tree"
+"0","checkInstallLoad(""RColorBrewer"")"
+"2","Loading required package: RColorBrewer
+"
+"0","checkInstallLoad(""rattle"")"
+"2","Loading required package: rattle
+"
+"2","Rattle: A free graphical interface for data science with R.
+Version 5.1.0 Copyright (c) 2006-2017 Togaware Pty Ltd.
+Type 'rattle()' to shake, rattle, and roll your data.
+"
+"0","fancyRpartPlot(fit)"

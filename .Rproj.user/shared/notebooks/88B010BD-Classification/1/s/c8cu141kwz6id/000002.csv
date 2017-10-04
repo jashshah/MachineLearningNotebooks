@@ -1,0 +1,2 @@
+"0","# Faceted historgram by income"
+"0","plot_faceted_histogram(train, 'age', 'income')"

@@ -1,0 +1,4 @@
+"0","# save the cancer type in a separate object and remove it from the data frame"
+"0","cancer_type <- nci %>%"
+"0","  pull(cancer_type)"
+"0","nci$cancer_type <- NULL"
